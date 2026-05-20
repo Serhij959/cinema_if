@@ -15,12 +15,7 @@ class BookingsController < ApplicationController
     @rows = (1..@hall[:rows]).to_a
     @seats_per_row = @hall[:seats_per_row]
 
-    @booked_seats = [
-      [1, 5],
-      [1, 6],
-      [6, 9],
-      [6, 10]
-    ]
+    @booked_seats = []
 
   end
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_05_20_171322) do
+ActiveRecord::Schema[8.1].define(version: 2026_05_20_174027) do
   create_table "halls", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "hall_type"
@@ -24,10 +24,14 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_20_171322) do
     t.string "age"
     t.datetime "created_at", null: false
     t.text "description"
+    t.text "description_en"
     t.string "duration"
+    t.string "duration_en"
     t.string "genre"
+    t.string "genre_en"
     t.string "poster"
     t.string "title"
+    t.string "title_en"
     t.datetime "updated_at", null: false
   end
 

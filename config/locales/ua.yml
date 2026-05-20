@@ -40,3 +40,21 @@ uk:
     friday: "пʼятниця"
     saturday: "субота"
     sunday: "неділя"
+  
+  booking:
+   creen: "ЕКРАН"
+   selected_seats: "Обрано місць"
+   otal: "Всього до сплати"
+   buy_tickets: "Купити квитки"
+   order: "Замовлення"
+   empty_order: "Місця ще не вибрано"
+   continue: "Продовжити"
+   row: "Ряд"
+   seat: "місце"
+   format: "Формат"
+   hall: "Зал"
+   time: "Час"
+   currency: "грн"
+   hall_value: "Зал"
+   time: "Час"
+ 

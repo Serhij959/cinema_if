@@ -41,5 +41,20 @@ en:
    saturday: "saturday"
    sunday: "sunday"
 
-  
+  booking:
+   screen: "Screen"
+   selected_seats: "Selected seats"
+   total: "Total"
+   buy_tickets: "Buy tickets"
+   order: "Order"
+   empty_order: "No seats selected"
+   continue: "Continue"
+   row: "Row"
+   seat: "seat"
+   format: "Format"
+   hall: "Hall"
+   time: "Time"
+   currency: "UAH"
+   hall_value: "Hall"
+   time: "Time"
   

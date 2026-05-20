@@ -33,7 +33,7 @@
     <section class="booking-left">
 
       <div class="screen">
-        <span>ЕКРАН</span>
+        <span><%= t("booking.screen") %></span>
       </div>
 
       <div class="hall">
@@ -48,7 +48,9 @@
 
               <button
                 class="seat <%= 'booked' if booked %>"
-                data-price="150"
+                data-price="<%= @price || 150 %>"
+                data-row="<%= row %>"
+                data-seat="<%= seat %>"
                 <%= 'disabled' if booked %>
               >
                 <% if booked %>
@@ -62,15 +64,6 @@
 
       </div>
 
-      <div class="booking-summary">
-        <p>Обрано місць: <span id="selectedCount">0</span></p>
-        <p>Сума: <span id="totalPrice">0</span> грн</p>
-
-        <button class="buy-ticket-btn">
-          Купити квитки
-        </button>
-      </div>
-
     </section>
 
     <aside class="booking-right">
@@ -80,17 +73,17 @@
       <div class="booking-session-card">
 
         <div>
-          <span class="session-label">Формат</span>
+          <span class="session-label"><%= t("booking.format") %></span>
           <strong><%= @format.presence || "2D" %></strong>
         </div>
 
         <div>
-          <span class="session-label">Зал</span>
-          <strong><%= @hall_name.presence || "Зал 1" %></strong>
+          <span class="session-label"><%= t("booking.hall") %></span>
+          <strong><%= @hall_name.to_s.gsub("Зал", t("booking.hall_value")) %></strong>
         </div>
 
         <div>
-          <span class="session-label">Час</span>
+          <span class="session-label"><%= t("booking.time") %></span>
           <strong><%= @time %></strong>
         </div>
 
@@ -107,6 +100,70 @@
         </div>
       <% end %>
 
+      <div class="order-box">
+         <h3><%= t("booking.order") %></h3>
+
+        <div id="selectedSeatsList" class="selected-seats-list">
+          <p class="empty-order"><%= t("booking.empty_order") %></p>
+        </div>
+
+        <div class="order-total">
+          <span><%= t("booking.total") %></span>
+          <strong><span id="totalPrice">0</span> <%= t("booking.currency") %></strong>
+        </div>
+
+        <button type="button" class="continue-btn" id="openCheckoutModal">
+         <%= t("booking.continue") %>
+         </button>
+      </div>
+       <div class="checkout-modal" id="checkoutModal">
+         <div class="checkout-overlay" id="closeCheckoutModal"></div>
+
+         <div class="checkout-box dark-checkout">
+           <button type="button" class="checkout-close" id="checkoutCloseBtn">×</button>
+
+           <h2>
+             <%= @movie_title %>
+             <span><%= @format %></span>
+           </h2>
+
+           <p class="checkout-session">
+             <%= @time %> • <%= @hall_name.to_s.gsub("Зал", t("booking.hall_value")) %>
+           </p>
+
+           <% if user_signed_in? %>
+             <div class="checkout-email-row">
+               <label>E-mail для квитків</label>
+
+               <input
+                 type="email"
+                 value="<%= current_user.email %>"
+                 readonly
+                 class="checkout-email"
+                >
+              </div>
+
+               <p class="checkout-hint">
+                  Квитки та чек надійдуть на цей e-mail.
+               </p>
+
+               <button type="button" class="checkout-pay-btn">
+                  Оплатити <span id="modalTotalPrice">0</span> <%= t("booking.currency") %>
+               </button>
+
+            <% else %>
+
+                <p class="checkout-hint">
+                 Щоб купити квитки, потрібно створити акаунт.
+                </p>
+
+                <%= link_to "Зареєструватися",
+                 new_user_registration_path(return_to: request.fullpath),
+                 class: "checkout-pay-btn" %>
+
+            <% end %>
+          </div>
+       </div>
     </aside>
 
   </div>
@@ -114,18 +171,60 @@
 </div>
 
 <script>
+  const rowText = "<%= t('booking.row') %>"
+  const seatText = "<%= t('booking.seat') %>"
+  const emptyOrderText = "<%= t('booking.empty_order') %>"
+  const currencyText = "<%= t('booking.currency') %>"
+
   document.addEventListener("click", function(event) {
     const seat = event.target.closest(".seat")
 
-    if (!seat || seat.classList.contains("booked")) return
+    if (seat && !seat.classList.contains("booked")) {
+      seat.classList.toggle("selected")
 
-    seat.classList.toggle("selected")
+      const selectedSeats = document.querySelectorAll(".seat.selected")
+      const list = document.getElementById("selectedSeatsList")
+      const totalPrice = document.getElementById("totalPrice")
+      const modalTotal = document.getElementById("modalTotalPrice")
 
-    const selectedSeats = document.querySelectorAll(".seat.selected")
-    const count = selectedSeats.length
-    const total = count * 150
+      let total = 0
+      list.innerHTML = ""
 
-    document.getElementById("selectedCount").textContent = count
-    document.getElementById("totalPrice").textContent = total
+      if (selectedSeats.length === 0) {
+        list.innerHTML = `<p class="empty-order">${emptyOrderText}</p>`
+        totalPrice.textContent = "0"
+        if (modalTotal) modalTotal.textContent = "0"
+        return
+      }
+
+      selectedSeats.forEach(selected => {
+        const row = selected.dataset.row
+        const seatNumber = selected.dataset.seat
+        const price = Number(selected.dataset.price)
+
+        total += price
+
+        list.innerHTML += `
+          <div class="selected-seat-item">
+            <span>${rowText} ${row}, ${seatText} ${seatNumber}</span>
+            <strong>${price} ${currencyText}</strong>
+          </div>
+        `
+      })
+
+      totalPrice.textContent = total
+      if (modalTotal) modalTotal.textContent = total
+    }
+
+    if (event.target.closest("#openCheckoutModal")) {
+      document.getElementById("checkoutModal").classList.add("active")
+    }
+
+    if (
+      event.target.closest("#closeCheckoutModal") ||
+      event.target.closest("#checkoutCloseBtn")
+    ) {
+      document.getElementById("checkoutModal").classList.remove("active")
+    }
   })
 </script>
