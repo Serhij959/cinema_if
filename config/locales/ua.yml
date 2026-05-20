@@ -1,0 +1,29 @@
+uk:
+  login: "Увійти"
+  logout: "Вийти"
+  create_account: "Створити акаунт"
+  forgot_password: "Забули пароль?"
+  remember_me: "Запамʼятати мене"
+  back: "Назад"
+
+  announcements: "Анонси"
+  promotions: "Акції"
+  choose: "Вибрати"
+  day: "день"
+  all_announcements: "Всі анонси"
+
+  burger:
+    home: "Головна"
+    schedule: "Афіша"
+    announcements: "Анонси"
+    promotions: "Акції"
+    contacts: "Контакти"
+
+  auth:
+    login_title: "Увійдіть у свій акаунт"
+    register_title: "Створіть акаунт"
+    reset_title: "Відновлення пароля"
+    email: "Email"
+    password: "Пароль"
+    repeat_password: "Повторіть пароль"
+    send_reset: "Надіслати інструкції"

@@ -1,0 +1,72 @@
+<div class="auth-page">
+
+  <a href="/" class="back-home-btn">
+    ← <%= t("back") %>
+  </a>
+
+  <div class="auth-language-switcher">
+
+    <%= link_to "UA",
+      url_for(locale: :uk),
+      class: "lang #{'active' if I18n.locale == :uk}" %>
+
+    <span>/</span>
+
+    <%= link_to "EN",
+      url_for(locale: :en),
+      class: "lang #{'active' if I18n.locale == :en}" %>
+
+  </div>
+  
+  <div class="auth-box">
+
+    <div class="auth-logo">
+      🎬
+    </div>
+
+    <h1 class="auth-title">
+      CinemaIF
+    </h1>
+
+    <p class="auth-subtitle">
+      Create your account
+    </p>
+
+    <%= form_for(resource,
+      as: resource_name,
+      url: registration_path(resource_name)) do |f| %>
+
+      <div class="field">
+        <%= f.email_field :email,
+          autofocus: true,
+          autocomplete: "email",
+          placeholder: t("auth.email") %>
+      </div>
+
+      <div class="field">
+        <%= f.password_field :password,
+          autocomplete: "new-password",
+          placeholder: t("auth.password") %>
+      </div>
+
+      <div class="field">
+        <%= f.password_field :password_confirmation,
+          autocomplete: "new-password",
+          placeholder: t("auth.repeat_password") %>
+      </div>
+
+      <%= f.submit t("create_account"), 
+      class: "auth-btn" %>
+    
+    <% end %>
+
+    <div class="auth-links">
+
+      <%= link_to "Already have account?",
+        new_session_path(resource_name) %>
+
+    </div>
+
+  </div>
+
+</div>

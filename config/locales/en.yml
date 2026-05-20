@@ -1,0 +1,29 @@
+en:
+  login: "Login"
+  logout: "Logout"
+  create_account: "Create account"
+  forgot_password: "Forgot password?"
+  remember_me: "Remember me"
+  back: "Back"
+
+  announcements: "Announcements"
+  promotions: "Promotions"
+  choose: "Choose"
+  day: "Day"
+  all_announcements: "All announcements"
+
+  burger:
+    home: "Home"
+    schedule: "Schedule"
+    announcements: "Announcements"
+    promotions: "Promotions"
+    contacts: "Contacts"
+
+  auth:
+    login_title: "Log in to your account"
+    register_title: "Create your account"
+    reset_title: "Reset password"
+    email: "Email"
+    password: "Password"
+    repeat_password: "Repeat password"
+    send_reset: "Send reset instructions"
