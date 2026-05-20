@@ -1,0 +1,131 @@
+<div class="booking-page">
+
+  <div class="booking-header">
+
+    <%= link_to root_path(locale: I18n.locale), class: "booking-back-btn" do %>
+      ← <%= t("back") rescue "Назад" %>
+    <% end %>
+
+    <div class="booking-language-switcher">
+      <%= link_to "UA", booking_path(
+        locale: :uk,
+        movie: @movie_title,
+        time: @time,
+        format: @format,
+        hall: @hall_name
+      ), class: "lang #{'active' if I18n.locale == :uk}", data: { turbo: false } %>
+
+      <span>/</span>
+
+      <%= link_to "EN", booking_path(
+        locale: :en,
+        movie: @movie_title,
+        time: @time,
+        format: @format,
+        hall: @hall_name
+      ), class: "lang #{'active' if I18n.locale == :en}", data: { turbo: false } %>
+    </div>
+
+  </div>
+
+  <div class="booking-layout">
+
+    <section class="booking-left">
+
+      <div class="screen">
+        <span>ЕКРАН</span>
+      </div>
+
+      <div class="hall">
+
+        <% @rows.each do |row| %>
+          <div class="seat-row">
+
+            <span class="row-number"><%= row %></span>
+
+            <% (1..@seats_per_row).each do |seat| %>
+              <% booked = @booked_seats.include?([row, seat]) %>
+
+              <button
+                class="seat <%= 'booked' if booked %>"
+                data-price="150"
+                <%= 'disabled' if booked %>
+              >
+                <% if booked %>
+                  👤
+                <% end %>
+              </button>
+            <% end %>
+
+          </div>
+        <% end %>
+
+      </div>
+
+      <div class="booking-summary">
+        <p>Обрано місць: <span id="selectedCount">0</span></p>
+        <p>Сума: <span id="totalPrice">0</span> грн</p>
+
+        <button class="buy-ticket-btn">
+          Купити квитки
+        </button>
+      </div>
+
+    </section>
+
+    <aside class="booking-right">
+
+      <h1><%= @movie_title %></h1>
+
+      <div class="booking-session-card">
+
+        <div>
+          <span class="session-label">Формат</span>
+          <strong><%= @format.presence || "2D" %></strong>
+        </div>
+
+        <div>
+          <span class="session-label">Зал</span>
+          <strong><%= @hall_name.presence || "Зал 1" %></strong>
+        </div>
+
+        <div>
+          <span class="session-label">Час</span>
+          <strong><%= @time %></strong>
+        </div>
+
+      </div>
+
+      <% if @movie_info %>
+        <div class="booking-movie-info">
+          <img src="<%= @movie_info[:poster] %>" alt="<%= @movie_title %>">
+
+          <div>
+            <h2><%= @movie_title %></h2>
+            <p><%= @movie_info[:description] %></p>
+          </div>
+        </div>
+      <% end %>
+
+    </aside>
+
+  </div>
+
+</div>
+
+<script>
+  document.addEventListener("click", function(event) {
+    const seat = event.target.closest(".seat")
+
+    if (!seat || seat.classList.contains("booked")) return
+
+    seat.classList.toggle("selected")
+
+    const selectedSeats = document.querySelectorAll(".seat.selected")
+    const count = selectedSeats.length
+    const total = count * 150
+
+    document.getElementById("selectedCount").textContent = count
+    document.getElementById("totalPrice").textContent = total
+  })
+</script>

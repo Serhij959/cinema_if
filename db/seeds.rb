@@ -1,9 +1,43 @@
-# This file should ensure the existence of records required to run the application in every environment (production,
-# development, test). The code here should be idempotent so that it can be executed at any point in every environment.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Example:
-#
-#   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
-#     MovieGenre.find_or_create_by!(name: genre_name)
-#   end
+Hall.create!([
+  {
+    name: "Зал 1",
+    rows: 11,
+    seats_per_row: 18,
+    hall_type: "2D"
+  },
+
+  {
+    name: "Зал 2",
+    rows: 10,
+    seats_per_row: 16,
+    hall_type: "2D"
+  },
+
+  {
+    name: "Зал 3",
+    rows: 9,
+    seats_per_row: 16,
+    hall_type: "3D"
+  },
+
+  {
+    name: "Зал 4",
+    rows: 9,
+    seats_per_row: 18,
+    hall_type: "3D"
+  },
+
+  {
+    name: "LUX 1",
+    rows: 6,
+    seats_per_row: 10,
+    hall_type: "LUX"
+  },
+
+  {
+    name: "LUX 2",
+    rows: 5,
+    seats_per_row: 8,
+    hall_type: "LUX"
+  }
+])

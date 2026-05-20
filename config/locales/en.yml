@@ -27,3 +27,19 @@ en:
     password: "Password"
     repeat_password: "Repeat password"
     send_reset: "Send reset instructions"
+
+  days:
+   today: "today"
+   tomorrow: "tomorrow"
+
+  weekdays:
+   monday: "monday"
+   tuesday: "tuesday"
+   wednesday: "wednesday"
+   thursday: "thursday"
+   friday: "friday"
+   saturday: "saturday"
+   sunday: "sunday"
+
+  
+  

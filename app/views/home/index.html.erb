@@ -16,14 +16,16 @@
       <div class="language-switcher">
 
         <%= link_to root_path(locale: :uk),
-          class: "lang #{'active' if I18n.locale == :uk}" do %>
+         class: "lang #{'active' if I18n.locale == :uk}",
+         data: { turbo: false } do %>
           UA
         <% end %>
 
         <span>/</span>
 
         <%= link_to root_path(locale: :en),
-          class: "lang #{'active' if I18n.locale == :en}" do %>
+          class: "lang #{'active' if I18n.locale == :en}",
+          data: { turbo: false } do %>
           EN
         <% end %>
 
@@ -105,21 +107,23 @@
 
                   <% movie[:sessions].each do |session| %>
 
-                    <a href="#" class="session-link">
+                    <%= link_to booking_path(
+                     movie: movie[:title],
+                     time: session[:time],                 
+                     format: session[:format],
+                     hall: session[:hall]
+                    ), class: "session-link" do %>
 
                       <div class="session-time">
                         <%= session[:time] %>
                       </div>
 
-                      <div class="session-format">
+                       <div class="session-format">
                         <%= session[:format] %>
-                      </div>
-
-                    </a>
-
+                     </div>
+                   <% end %>
                   <% end %>
-
-                </div>
+                 </div>
 
                 <div class="film-details">
                   <p>

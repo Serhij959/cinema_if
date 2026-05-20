@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  rows: 1
+  seats_per_row: 1
+  hall_type: MyString
+
+two:
+  name: MyString
+  rows: 1
+  seats_per_row: 1
+  hall_type: MyString

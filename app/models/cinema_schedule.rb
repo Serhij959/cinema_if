@@ -9,21 +9,22 @@ class CinemaSchedule
       .map do |day|
         {
           date: day[:date].strftime("%d"),
-          label: label_for(day[:date]),
+          label: day_label(day[:date]),
           movies: day[:movies]
         }
       end
   end
 
-  def self.label_for(date)
+  def self.day_label(date)
     today = Date.today
 
-    return "сьогодні" if date == today
-    return "завтра" if date == today + 1
+    return I18n.t("days.today") if date == today
+    return I18n.t("days.tomorrow") if date == today + 1
 
-    weekday_name(date)
+    weekday = date.strftime("%A").downcase
+
+    I18n.t("weekdays.#{weekday}")
   end
-
   def self.weekday_name(date)
     names = {
       1 => "понеділок",
@@ -61,8 +62,49 @@ class CinemaSchedule
             genre: "Бойовик, комедія",
             duration: "2 год 7 хв",
             age: "16+",
+            description: "Дедпул повертається разом із Росомахою для найшаленішої місії Marvel.",
             poster: "https://image.tmdb.org/t/p/w500/8cdWjvZQUExUUTzyp4t6EDMubfO.jpg",
             sessions: [
+             { time: "12:30", format: "2D", hall: "Зал 1" },
+             { time: "15:10", format: "3D", hall: "Зал 3" },
+             { time: "18:40", format: "LUX", hall: "LUX 1" },
+             { time: "21:00", format: "2D", hall: "Зал 2" },
+             { time: "22:30", format: "3D", hall: "Зал 4" },
+             { time: "23:50", format: "LUX", hall: "LUX 2" }
+            ]
+          },
+          {
+            title: "Дюна",
+            genre: "Фантастика",
+            duration: "2 год 35 хв",
+            age: "12+",
+            poster: "https://image.tmdb.org/t/p/w500/5YZbUmjbMa3ClvSW1Wj3D6XGolb.jpg",
+            sessions: [
+              { time: "13:00", format: "2D" },
+              { time: "19:20", format: "LUX" }
+            ]
+          },
+          {
+            title: "Дюна",
+            genre: "Фантастика",
+            duration: "2 год 35 хв",
+            age: "12+",
+            poster: "https://image.tmdb.org/t/p/w500/5YZbUmjbMa3ClvSW1Wj3D6XGolb.jpg",
+            sessions: [
+              { time: "13:00", format: "2D" },
+              { time: "19:20", format: "LUX" }
+            ]
+          },
+          {
+            title: "Дедпул і Росомаха",
+            genre: "Бойовик, комедія",
+            duration: "2 год 7 хв",
+            age: "16+",
+            poster: "https://image.tmdb.org/t/p/w500/8cdWjvZQUExUUTzyp4t6EDMubfO.jpg",
+            sessions: [
+              { time: "12:30", format: "2D" },
+              { time: "15:10", format: "3D" },
+              { time: "18:40", format: "LUX" },
               { time: "12:30", format: "2D" },
               { time: "15:10", format: "3D" },
               { time: "18:40", format: "LUX" }

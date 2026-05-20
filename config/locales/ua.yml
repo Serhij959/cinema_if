@@ -27,3 +27,16 @@ uk:
     password: "Пароль"
     repeat_password: "Повторіть пароль"
     send_reset: "Надіслати інструкції"
+
+  days:
+    today: "сьогодні"
+    tomorrow: "завтра"
+
+  weekdays:
+    monday: "понеділок"
+    tuesday: "вівторок"
+    wednesday: "середа"
+    thursday: "четвер"
+    friday: "пʼятниця"
+    saturday: "субота"
+    sunday: "неділя"
