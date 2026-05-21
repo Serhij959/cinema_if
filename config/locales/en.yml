@@ -17,7 +17,7 @@ en:
     schedule: "Schedule"
     announcements: "Announcements"
     promotions: "Promotions"
-    contacts: "Contacts"
+    my_tickets: "My tickets"
 
   auth:
     login_title: "Log in to your account"
@@ -42,19 +42,45 @@ en:
    sunday: "sunday"
 
   booking:
-   screen: "Screen"
-   selected_seats: "Selected seats"
-   total: "Total"
-   buy_tickets: "Buy tickets"
-   order: "Order"
-   empty_order: "No seats selected"
-   continue: "Continue"
-   row: "Row"
-   seat: "seat"
-   format: "Format"
-   hall: "Hall"
-   time: "Time"
-   currency: "UAH"
-   hall_value: "Hall"
-   time: "Time"
-  
+    screen: "Screen"
+    selected_seats: "Selected seats"
+    total: "Total"
+    buy_tickets: "Buy tickets"
+    order: "Order"
+    empty_order: "No seats selected"
+    continue: "Continue"
+
+    row: "Row"
+    seat: "seat"
+
+    format: "Format"
+    hall: "Hall"
+    time: "Time"
+
+    currency: "UAH"
+    hall_value: "Hall"
+
+    email_for_tickets: "E-mail for tickets"
+    tickets_email_hint: "Tickets and receipt will be sent to this e-mail."
+
+    pay: "Pay"
+
+    need_account: "To buy tickets, you need to create an account."
+    register: "Register"
+
+    my_tickets: "My tickets"
+    no_tickets: "You don't have any tickets yet."
+
+    ticket: "Ticket"
+    seats: "Seats"
+    view_qr: "View QR ticket"
+
+    email_sent: "Tickets successfully purchased and sent to email"
+    ticket_email_subject: "Your CinemaIF ticket"
+
+    movie: "Movie"
+    date_time: "Date and time"
+    at: "at"
+
+    screening_not_found: "Screening not found"
+    ticket_not_found: "Ticket not found"

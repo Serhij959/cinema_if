@@ -22,8 +22,31 @@
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
+  <script>
+  document.addEventListener("click", function(event) {
+    const burgerMenu = document.getElementById("burgerMenu")
 
+    if (event.target.closest("#openBurger")) {
+      if (burgerMenu) burgerMenu.classList.add("active")
+    }
+
+    if (
+      event.target.closest("#closeBurger") ||
+      event.target.closest("#burgerOverlay")
+    ) {
+      if (burgerMenu) burgerMenu.classList.remove("active")
+    }
+
+    const burgerLink = event.target.closest(".burger-link")
+
+    if (burgerLink) {
+      if (burgerMenu) burgerMenu.classList.remove("active")
+    }
+  })
+  </script>
   <body>
+    <%= render "shared/header" %>
+    
     <%= yield %>
   </body>
 </html>

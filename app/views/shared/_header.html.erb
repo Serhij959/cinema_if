@@ -1,0 +1,49 @@
+<header class="header">
+
+  <%= render "shared/burger_menu" %>
+
+  <div class="burger" id="openBurger">
+    ☰
+  </div>
+
+  <%= link_to "CinemaIF",
+    root_path(locale: I18n.locale),
+    class: "logo",
+    id: "logoTop" %>
+
+  <div class="header-right">
+
+    <div class="language-switcher">
+
+      <%= link_to "UA",
+        url_for(request.query_parameters.merge(locale: :uk)),
+        class: "lang #{'active' if I18n.locale == :uk}",
+        data: { turbo: false } %>
+
+      <span>/</span>
+
+      <%= link_to "EN",
+        url_for(request.query_parameters.merge(locale: :en)),
+        class: "lang #{'active' if I18n.locale == :en}",
+        data: { turbo: false } %>
+
+    </div>
+
+    <% if user_signed_in? %>
+
+      <%= button_to t("logout"),
+        destroy_user_session_path,
+        method: :delete,
+        class: "login-btn" %>
+
+    <% else %>
+
+      <%= link_to t("login"),
+        new_user_session_path,
+        class: "login-btn" %>
+
+    <% end %>
+
+  </div>
+
+</header>

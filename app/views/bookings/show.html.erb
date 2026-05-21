@@ -1,33 +1,5 @@
 <div class="booking-page">
 
-  <div class="booking-header">
-
-    <%= link_to root_path(locale: I18n.locale), class: "booking-back-btn" do %>
-      ← <%= t("back") rescue "Назад" %>
-    <% end %>
-
-    <div class="booking-language-switcher">
-      <%= link_to "UA", booking_path(
-        locale: :uk,
-        movie: @movie_title,
-        time: @time,
-        format: @format,
-        hall: @hall_name
-      ), class: "lang #{'active' if I18n.locale == :uk}", data: { turbo: false } %>
-
-      <span>/</span>
-
-      <%= link_to "EN", booking_path(
-        locale: :en,
-        movie: @movie_title,
-        time: @time,
-        format: @format,
-        hall: @hall_name
-      ), class: "lang #{'active' if I18n.locale == :en}", data: { turbo: false } %>
-    </div>
-
-  </div>
-
   <div class="booking-layout">
 
     <section class="booking-left">
@@ -47,6 +19,7 @@
               <% booked = @booked_seats.include?([row, seat]) %>
 
               <button
+                type="button"
                 class="seat <%= 'booked' if booked %>"
                 data-price="<%= @price || 150 %>"
                 data-row="<%= row %>"
@@ -101,7 +74,7 @@
       <% end %>
 
       <div class="order-box">
-         <h3><%= t("booking.order") %></h3>
+        <h3><%= t("booking.order") %></h3>
 
         <div id="selectedSeatsList" class="selected-seats-list">
           <p class="empty-order"><%= t("booking.empty_order") %></p>
@@ -113,57 +86,70 @@
         </div>
 
         <button type="button" class="continue-btn" id="openCheckoutModal">
-         <%= t("booking.continue") %>
-         </button>
+          <%= t("booking.continue") %>
+        </button>
       </div>
-       <div class="checkout-modal" id="checkoutModal">
-         <div class="checkout-overlay" id="closeCheckoutModal"></div>
 
-         <div class="checkout-box dark-checkout">
-           <button type="button" class="checkout-close" id="checkoutCloseBtn">×</button>
+      <div class="checkout-modal" id="checkoutModal">
+        <div class="checkout-overlay" id="closeCheckoutModal"></div>
 
-           <h2>
-             <%= @movie_title %>
-             <span><%= @format %></span>
-           </h2>
+        <div class="checkout-box dark-checkout">
+          <button type="button" class="checkout-close" id="checkoutCloseBtn">×</button>
 
-           <p class="checkout-session">
-             <%= @time %> • <%= @hall_name.to_s.gsub("Зал", t("booking.hall_value")) %>
-           </p>
+          <h2>
+            <%= @movie_title %>
+            <span><%= @format %></span>
+          </h2>
 
-           <% if user_signed_in? %>
-             <div class="checkout-email-row">
-               <label>E-mail для квитків</label>
+          <p class="checkout-session">
+            <%= @time %> • <%= @hall_name.to_s.gsub("Зал", t("booking.hall_value")) %>
+          </p>
 
-               <input
-                 type="email"
-                 value="<%= current_user.email %>"
-                 readonly
-                 class="checkout-email"
+          <% if user_signed_in? %>
+
+            <%= form_with url: checkout_bookings_path(locale: I18n.locale), method: :post, local: true, id: "checkoutForm" do %>
+
+              <input type="hidden" name="screening_id" value="<%= @screening.id %>">
+              <input type="hidden" name="selected_seats" id="selectedSeatsInput" value="[]">
+
+              <div class="checkout-email-row">
+                <label><%= t("booking.email_for_tickets") %></label>
+
+                <input
+                  type="email"
+                  value="<%= current_user.email %>"
+                  readonly
+                  class="checkout-email"
                 >
               </div>
 
-               <p class="checkout-hint">
-                  Квитки та чек надійдуть на цей e-mail.
-               </p>
+              <p class="checkout-hint">
+                <%= t("booking.tickets_email_hint") %>
+              </p>
 
-               <button type="button" class="checkout-pay-btn">
-                  Оплатити <span id="modalTotalPrice">0</span> <%= t("booking.currency") %>
-               </button>
-
-            <% else %>
-
-                <p class="checkout-hint">
-                 Щоб купити квитки, потрібно створити акаунт.
-                </p>
-
-                <%= link_to "Зареєструватися",
-                 new_user_registration_path(return_to: request.fullpath),
-                 class: "checkout-pay-btn" %>
+              <button type="submit" class="checkout-pay-btn">
+                <%= t("booking.pay") %>
+                <span id="modalTotalPrice">0</span>
+                <%= t("booking.currency") %>
+              </button>
 
             <% end %>
-          </div>
-       </div>
+
+          <% else %>
+
+            <p class="checkout-hint">
+              <%= t("booking.need_account") %>
+            </p>
+
+            <%= link_to t("booking.register"),
+              new_user_registration_path(return_to: request.fullpath),
+              class: "checkout-pay-btn" %>
+
+          <% end %>
+
+        </div>
+      </div>
+
     </aside>
 
   </div>
@@ -176,47 +162,71 @@
   const emptyOrderText = "<%= t('booking.empty_order') %>"
   const currencyText = "<%= t('booking.currency') %>"
 
+  function updateOrder() {
+    const selectedSeats = document.querySelectorAll(".seat.selected")
+    const list = document.getElementById("selectedSeatsList")
+    const totalPrice = document.getElementById("totalPrice")
+    const modalTotal = document.getElementById("modalTotalPrice")
+    const selectedSeatsInput = document.getElementById("selectedSeatsInput")
+
+    let total = 0
+    let seatsData = []
+
+    list.innerHTML = ""
+
+    if (selectedSeats.length === 0) {
+      list.innerHTML = `<p class="empty-order">${emptyOrderText}</p>`
+      totalPrice.textContent = "0"
+
+      if (modalTotal) modalTotal.textContent = "0"
+      if (selectedSeatsInput) selectedSeatsInput.value = "[]"
+
+      return
+    }
+
+    selectedSeats.forEach(selected => {
+      const row = selected.dataset.row
+      const seatNumber = selected.dataset.seat
+      const price = Number(selected.dataset.price)
+
+      total += price
+
+      seatsData.push({
+        row: row,
+        seat: seatNumber,
+        price: price
+      })
+
+      list.innerHTML += `
+        <div class="selected-seat-item">
+          <span>${rowText} ${row}, ${seatText} ${seatNumber}</span>
+          <strong>${price} ${currencyText}</strong>
+        </div>
+      `
+    })
+
+    totalPrice.textContent = total
+
+    if (modalTotal) modalTotal.textContent = total
+    if (selectedSeatsInput) selectedSeatsInput.value = JSON.stringify(seatsData)
+  }
+
   document.addEventListener("click", function(event) {
     const seat = event.target.closest(".seat")
 
     if (seat && !seat.classList.contains("booked")) {
       seat.classList.toggle("selected")
-
-      const selectedSeats = document.querySelectorAll(".seat.selected")
-      const list = document.getElementById("selectedSeatsList")
-      const totalPrice = document.getElementById("totalPrice")
-      const modalTotal = document.getElementById("modalTotalPrice")
-
-      let total = 0
-      list.innerHTML = ""
-
-      if (selectedSeats.length === 0) {
-        list.innerHTML = `<p class="empty-order">${emptyOrderText}</p>`
-        totalPrice.textContent = "0"
-        if (modalTotal) modalTotal.textContent = "0"
-        return
-      }
-
-      selectedSeats.forEach(selected => {
-        const row = selected.dataset.row
-        const seatNumber = selected.dataset.seat
-        const price = Number(selected.dataset.price)
-
-        total += price
-
-        list.innerHTML += `
-          <div class="selected-seat-item">
-            <span>${rowText} ${row}, ${seatText} ${seatNumber}</span>
-            <strong>${price} ${currencyText}</strong>
-          </div>
-        `
-      })
-
-      totalPrice.textContent = total
-      if (modalTotal) modalTotal.textContent = total
+      updateOrder()
     }
 
     if (event.target.closest("#openCheckoutModal")) {
+      const selectedSeats = document.querySelectorAll(".seat.selected")
+
+      if (selectedSeats.length === 0) {
+        alert(emptyOrderText)
+        return
+      }
+
       document.getElementById("checkoutModal").classList.add("active")
     }
 

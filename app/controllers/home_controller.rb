@@ -32,6 +32,7 @@ def build_days_from_database
 
         sessions: movie_screenings.map do |screening|
           {
+            id: screening.id,
             time: screening.show_time,
             format: screening.format,
             hall: screening.hall.name

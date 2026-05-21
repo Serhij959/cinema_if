@@ -1,24 +1,6 @@
 <div class="auth-page">
 
-  <a href="/" class="back-home-btn">
-    ← <%= t("back") %>
-  </a>
-  <div class="auth-language-switcher">
-
-  <%= link_to "UA",
-    url_for(locale: :uk),
-    class: "lang #{'active' if I18n.locale == :uk}" %>
-
-  <span>/</span>
-
-  <%= link_to "EN",
-    url_for(locale: :en),
-    class: "lang #{'active' if I18n.locale == :en}" %>
-
-  </div>
-
-  <div class="auth-box">
-
+ <div class="auth-box">
     <div class="auth-logo">
       🎬
     </div>

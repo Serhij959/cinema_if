@@ -10,7 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_05_20_174027) do
+ActiveRecord::Schema[8.1].define(version: 2026_05_21_161336) do
+  create_table "bookings", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "price"
+    t.integer "row_number"
+    t.integer "screening_id", null: false
+    t.integer "seat_number"
+    t.string "status"
+    t.string "ticket_token"
+    t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
+    t.index ["screening_id"], name: "index_bookings_on_screening_id"
+    t.index ["user_id"], name: "index_bookings_on_user_id"
+  end
+
   create_table "halls", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "hall_type"
@@ -60,6 +74,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_20_174027) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "bookings", "screenings"
+  add_foreign_key "bookings", "users"
   add_foreign_key "screenings", "halls"
   add_foreign_key "screenings", "movies"
 end

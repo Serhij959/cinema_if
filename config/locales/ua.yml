@@ -17,7 +17,7 @@ uk:
     schedule: "Афіша"
     announcements: "Анонси"
     promotions: "Акції"
-    contacts: "Контакти"
+    my_tickets: "Мої квитки"
 
   auth:
     login_title: "Увійдіть у свій акаунт"
@@ -42,19 +42,41 @@ uk:
     sunday: "неділя"
   
   booking:
-   creen: "ЕКРАН"
-   selected_seats: "Обрано місць"
-   otal: "Всього до сплати"
-   buy_tickets: "Купити квитки"
-   order: "Замовлення"
-   empty_order: "Місця ще не вибрано"
-   continue: "Продовжити"
-   row: "Ряд"
-   seat: "місце"
-   format: "Формат"
-   hall: "Зал"
-   time: "Час"
-   currency: "грн"
-   hall_value: "Зал"
-   time: "Час"
- 
+    screen: "ЕКРАН"
+    selected_seats: "Обрано місць"
+    total: "Всього до сплати"
+    buy_tickets: "Купити квитки"
+    order: "Замовлення"
+    empty_order: "Місця ще не вибрано"
+    continue: "Продовжити"
+    row: "Ряд"
+    seat: "місце"
+    format: "Формат"
+    hall: "Зал"
+    time: "Час"
+    currency: "грн"
+    hall_value: "Зал"
+
+    email_for_tickets: "E-mail для квитків"
+    tickets_email_hint: "Квитки та чек надійдуть на цей e-mail."
+
+    pay: "Оплатити"
+    need_account: "Щоб купити квитки, потрібно створити акаунт."
+    register: "Зареєструватися"
+
+    my_tickets: "Мої квитки"
+    no_tickets: "У вас ще немає квитків."
+
+    ticket: "Квиток"
+    seats: "Місця"
+    view_qr: "Відкрити QR-квиток"
+
+    email_sent: "Квитки успішно куплено та відправлено на email"
+    ticket_email_subject: "Ваш квиток CinemaIF"
+
+    movie: "Фільм"
+    date_time: "Дата та час"
+    at: "о"
+
+    screening_not_found: "Сеанс не знайдено"
+    ticket_not_found: "Квиток не знайдено"

@@ -1,0 +1,47 @@
+<div class="booking-page">
+  <div class="my-tickets-container">
+    <% if @orders.empty? %>
+      <p class="no-tickets-msg"><%= t("booking.no_tickets") %></p>
+    <% else %>
+      <% @orders.each do |token, bookings| %>
+        <% screening = bookings.first.screening %>
+        <% movie = screening.movie %>
+        <% hall = screening.hall %>
+        
+        <div class="booking-session-card ticket-order-card">
+          <div class="ticket-order-flex">
+            
+            <img src="<%= movie.poster %>" class="ticket-movie-poster">
+            
+            <div class="ticket-order-info">
+              <h3 class="ticket-movie-title">
+                <%= movie.respond_to?(:title_en) && I18n.locale == :en && movie.title_en.present? ? movie.title_en : movie.title %>
+              </h3>
+              
+              <p class="ticket-session-details">
+                <%= screening.show_date %> • <%= screening.show_time %> • <%= hall.name %> (<%= screening.format %>)
+              </p>
+              
+              <div class="ticket-seats-list">
+                <% bookings.each do |b| %>
+                  <span class="ticket-seat-badge">
+                    <%= t("booking.row") %> <%= b.row_number %>, <%= t("booking.seat") %> <%= b.seat_number %>
+                  </span>
+                <% end %>
+              </div>
+
+              <p class="ticket-total-price">
+                <%= t("booking.total") %>: <%= bookings.sum(&:price) %> <%= t("booking.currency") %>
+              </p>
+            </div>
+
+            <div class="ticket-action-col">
+              <%= link_to t("booking.view_qr"), ticket_path(token: token, locale: I18n.locale), class: "buy-ticket-btn ticket-view-btn" %>
+            </div>
+            
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+</div>

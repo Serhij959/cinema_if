@@ -5,31 +5,50 @@
   <div class="burger-sidebar">
 
     <div class="burger-header">
+
       <h2>CinemaIF</h2>
 
       <button class="close-burger" id="closeBurger">
         ✕
       </button>
+
     </div>
+
     <nav class="burger-nav">
 
-  <a href="#poster" class="burger-link">
-    <%= t("burger.schedule") %>
-  </a>
+      <%= link_to root_path(locale: I18n.locale, anchor: "poster"),
+        class: "burger-link" do %>
 
-  <a href="#announcements" class="burger-link">
-    <%= t("burger.announcements") %>
-  </a>
+        <%= t("burger.schedule") %>
 
-  <a href="#promotions" class="burger-link">
-    <%= t("burger.promotions") %>
-  </a>
+      <% end %>
 
-  <a href="#">
-    <%= t("burger.contacts") %>
-  </a>
+      <%= link_to root_path(locale: I18n.locale, anchor: "announcements"),
+        class: "burger-link" do %>
 
- </nav>
+        <%= t("burger.announcements") %>
+
+      <% end %>
+
+      <%= link_to root_path(locale: I18n.locale, anchor: "promotions"),
+        class: "burger-link" do %>
+
+        <%= t("burger.promotions") %>
+
+      <% end %>
+
+      <% if user_signed_in? %>
+
+        <%= link_to my_tickets_path(locale: I18n.locale),
+          class: "burger-link" do %>
+
+          <%= t("burger.my_tickets") %>
+
+        <% end %>
+
+      <% end %>
+
+    </nav>
 
   </div>
 

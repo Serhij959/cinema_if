@@ -1,0 +1,52 @@
+<div class="ticket-page">
+
+  <div class="ticket-card">
+
+    <div class="ticket-left">
+      <h1>Ваш квиток</h1>
+
+      <h2><%= @movie.localized_title %></h2>
+
+      <div class="ticket-info">
+        <p><strong>Час:</strong> <%= @screening.show_time %></p>
+        <p><strong>Формат:</strong> <%= @screening.format %></p>
+        <p><strong>Зал:</strong> <%= @hall.name %></p>
+        <p><strong>Email:</strong> <%= @user.email %></p>
+      </div>
+
+      <div class="ticket-seats">
+        <h3>Місця</h3>
+
+        <% @bookings.each do |booking| %>
+          <div class="ticket-seat">
+            Ряд <%= booking.row_number %>, місце <%= booking.seat_number %>
+          </div>
+        <% end %>
+      </div>
+
+      <%= link_to "Повернутися на головну",
+        root_path(locale: I18n.locale),
+        class: "ticket-home-btn" %>
+    </div>
+
+    <div class="ticket-right">
+      <% qrcode = RQRCode::QRCode.new(@ticket_token) %>
+
+      <div class="qr-box">
+        <%= raw qrcode.as_svg(
+          color: "000",
+          shape_rendering: "crispEdges",
+          module_size: 5,
+          standalone: true,
+          use_path: true
+        ) %>
+      </div>
+
+      <p class="ticket-token">
+        № <%= @ticket_token.first(8).upcase %>
+      </p>
+    </div>
+
+  </div>
+
+</div>

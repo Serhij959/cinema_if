@@ -1,0 +1,18 @@
+<h2><%= t("booking.ticket_email_subject") %></h2>
+
+<p><strong><%= t("booking.movie") %>:</strong> <%= @movie.respond_to?(:title_en) && I18n.locale == :en && @movie.title_en.present? ? @movie.title_en : @movie.title %></p>
+<p><strong><%= t("booking.date_time") %>:</strong> <%= @screening.show_date %> <%= t("booking.at") %> <%= @screening.show_time %></p>
+<p><strong><%= t("booking.hall") %>:</strong> <%= @hall.name %> (<%= @screening.format %>)</p>
+
+<p><strong><%= t("booking.seats") %>:</strong></p>
+<ul>
+  <% @bookings.each do |booking| %>
+    <li><%= t("booking.row") %> <%= booking.row_number %>, <%= t("booking.seat") %> <%= booking.seat_number %></li>
+  <% end %>
+</ul>
+
+<p><strong><%= t("booking.total") %>:</strong> <%= @bookings.sum(&:price) %> <%= t("booking.currency") %></p>
+
+<p>
+  <%= link_to t("booking.view_qr"), ticket_url(token: @ticket_token, locale: I18n.locale) %>
+</p>

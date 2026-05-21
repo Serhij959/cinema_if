@@ -1,45 +1,5 @@
 <div class="page">
 
-  <header class="header">
-  <%= render "shared/burger_menu" %>
-
-    <div class="burger" id="openBurger">
-      ☰
-    </div>
-
-    <a href="#" class="logo" id="logoTop">
-    CinemaIF
-    </a>
-
-    <div class="header-right">
-
-      <div class="language-switcher">
-
-        <%= link_to root_path(locale: :uk),
-         class: "lang #{'active' if I18n.locale == :uk}",
-         data: { turbo: false } do %>
-          UA
-        <% end %>
-
-        <span>/</span>
-
-        <%= link_to root_path(locale: :en),
-          class: "lang #{'active' if I18n.locale == :en}",
-          data: { turbo: false } do %>
-          EN
-        <% end %>
-
-      </div>
-
-      <% if user_signed_in? %>
-       <%= button_to "Вийти", destroy_user_session_path, method: :delete, class: "login-btn" %>
-       <% else %>
-        <%= link_to t("login"), new_user_session_path, class: "login-btn" %>
-      <% end %>
-
-    </div>
-
-  </header>
   <section class="schedule-days" id="poster">
 
   <div class="dates">
@@ -108,6 +68,7 @@
                   <% movie[:sessions].each do |session| %>
 
                     <%= link_to booking_path(
+                     screening_id: session[:id],
                      movie: movie[:title],
                      time: session[:time],                 
                      format: session[:format],
@@ -166,10 +127,6 @@
     <% end %>
   </div>
 
-  <button class="all-announcements-btn">
-   <%= t("all_announcements") %>
-  </button>
-
   </section>
 
  <section class="promotions-section" id="promotions">
@@ -194,44 +151,56 @@
 </div>
  
 <script>
-     // бургер
-    document.addEventListener("click", function(event) {
-
+  document.addEventListener("click", function(event) {
     const burgerMenu = document.getElementById("burgerMenu")
 
+    // бургер відкрити
     if (event.target.closest("#openBurger")) {
-
       if (burgerMenu) {
         burgerMenu.classList.add("active")
       }
-
     }
+
+    // бургер закрити
     if (
       event.target.closest("#closeBurger") ||
       event.target.closest("#burgerOverlay")
     ) {
-
       if (burgerMenu) {
         burgerMenu.classList.remove("active")
       }
-
     }
+
+    // клік по пункту бургер-меню
     const burgerLink = event.target.closest(".burger-link")
 
     if (burgerLink) {
-
       if (burgerMenu) {
         burgerMenu.classList.remove("active")
       }
 
+      const href = burgerLink.getAttribute("href")
+
+      if (href && href.startsWith("#")) {
+        event.preventDefault()
+
+        const target = document.querySelector(href)
+
+        if (target) {
+          setTimeout(function() {
+            target.scrollIntoView({
+              behavior: "smooth",
+              block: "start"
+            })
+          }, 50)
+        }
+      }
     }
 
     // дати
-
     const dateButton = event.target.closest(".date-btn, .dropdown-date-btn")
 
     if (dateButton) {
-
       document.querySelectorAll(".date-btn, .dropdown-date-btn").forEach(btn => {
         btn.classList.remove("active")
       })
@@ -254,34 +223,25 @@
       if (dropdown) {
         dropdown.classList.remove("show")
       }
-
     }
 
-    // забуваня дати 
-
+    // вибір дати
     if (event.target.closest("#chooseDateBtn")) {
-
       const dropdown = document.getElementById("dateDropdown")
 
       if (dropdown) {
         dropdown.classList.toggle("show")
       }
-
     }
 
-    // лого верх
-
+    // лого вверх
     if (event.target.closest("#logoTop")) {
-
       event.preventDefault()
 
       window.scrollTo({
         top: 0,
         behavior: "smooth"
       })
-
     }
-
   })
-
 </script>
