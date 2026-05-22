@@ -1,5 +1,5 @@
 class BookingsController < ApplicationController
-  before_action :authenticate_user!, only: [:checkout, :my_tickets]
+  before_action :authenticate_user!, only: [:checkout, :my_tickets, :cancel_ticket]
 
   def show
     @screening = Screening.find_by(id: params[:screening_id])
@@ -72,6 +72,19 @@ class BookingsController < ApplicationController
       .includes(screening: [:movie, :hall])
       .order(created_at: :desc)
       .group_by(&:ticket_token)
+  end
+
+  def cancel_ticket
+    bookings = current_user.bookings.where(ticket_token: params[:token])
+
+    if bookings.empty?
+      redirect_to my_tickets_path(locale: I18n.locale), alert: t("booking.ticket_not_found")
+      return
+    end
+
+    bookings.update_all(status: "cancelled")
+
+    redirect_to my_tickets_path(locale: I18n.locale), notice: t("booking.ticket_cancelled")
   end
 
   def ticket

@@ -8,6 +8,7 @@ Rails.application.routes.draw do
     post "bookings/checkout", to: "bookings#checkout", as: "checkout_bookings"
 
     get "ticket/:token", to: "bookings#ticket", as: "ticket"
+    delete "tickets/:token/cancel", to: "bookings#cancel_ticket", as: "cancel_ticket"
     get "my_tickets", to: "bookings#my_tickets", as: "my_tickets"
   end
 

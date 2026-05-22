@@ -7,6 +7,7 @@
         <% screening = bookings.first.screening %>
         <% movie = screening.movie %>
         <% hall = screening.hall %>
+        <% status = bookings.first.status %>
         
         <div class="booking-session-card ticket-order-card">
           <div class="ticket-order-flex">
@@ -33,10 +34,28 @@
               <p class="ticket-total-price">
                 <%= t("booking.total") %>: <%= bookings.sum(&:price) %> <%= t("booking.currency") %>
               </p>
+
+              <p class="ticket-status">
+                <%= t("booking.status") %>:
+                <% if status == "paid" %>
+                  <%= t("booking.paid") %>
+                <% elsif status == "cancelled" %>
+                  <%= t("booking.cancelled") %>
+                <% else %>
+                  <%= status %>
+                <% end %>
+              </p>
             </div>
 
             <div class="ticket-action-col">
               <%= link_to t("booking.view_qr"), ticket_path(token: token, locale: I18n.locale), class: "buy-ticket-btn ticket-view-btn" %>
+
+              <% if status == "paid" %>
+                <%= button_to t("booking.cancel_ticket"),
+                  cancel_ticket_path(token: token, locale: I18n.locale),
+                  method: :delete,
+                  class: "buy-ticket-btn ticket-cancel-btn" %>
+              <% end %>
             </div>
             
           </div>

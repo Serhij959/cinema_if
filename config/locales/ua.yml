@@ -80,3 +80,9 @@ uk:
 
     screening_not_found: "Сеанс не знайдено"
     ticket_not_found: "Квиток не знайдено"
+
+    cancel_ticket: "Скасувати квиток"
+    cancelled: "Скасовано"
+    paid: "Оплачено"
+    ticket_cancelled: "Квиток скасовано"
+    status: "Статус"

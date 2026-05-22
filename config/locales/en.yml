@@ -84,3 +84,9 @@ en:
 
     screening_not_found: "Screening not found"
     ticket_not_found: "Ticket not found"
+
+    cancel_ticket: "Cancel ticket"
+    cancelled: "Cancelled"
+    paid: "Paid"
+    ticket_cancelled: "Ticket cancelled"
+    status: "Status"
