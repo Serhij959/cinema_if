@@ -1,0 +1,48 @@
+<%= form_with model: [:admin, screening], class: "admin-form" do |f| %>
+
+  <% if screening.errors.any? %>
+    <div class="admin-errors">
+      <ul>
+        <% screening.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="admin-form-field">
+    <%= f.label :movie_id, t("admin.movie"), class: "admin-label" %>
+    <%= f.collection_select :movie_id, @movies, :id, :title, { prompt: true }, class: "admin-input" %>
+  </div>
+
+  <div class="admin-form-field">
+    <%= f.label :hall_id, t("admin.hall"), class: "admin-label" %>
+    <%= f.collection_select :hall_id, @halls, :id, :name, { prompt: true }, class: "admin-input" %>
+  </div>
+
+  <div class="admin-form-field">
+    <%= f.label :show_date, t("admin.show_date"), class: "admin-label" %>
+    <%= f.date_field :show_date, class: "admin-input" %>
+  </div>
+
+  <div class="admin-form-field">
+    <%= f.label :show_time, t("admin.show_time"), class: "admin-label" %>
+    <%= f.time_field :show_time, class: "admin-input", step: 60 %>
+  </div>
+
+  <div class="admin-form-field">
+    <%= f.label :format, t("admin.format"), class: "admin-label" %>
+    <%= f.select :format, @format_options, { prompt: true }, class: "admin-input" %>
+  </div>
+
+  <div class="admin-form-field">
+    <%= f.label :price, t("admin.price"), class: "admin-label" %>
+    <%= f.number_field :price, class: "admin-input", min: 0, step: 1 %>
+  </div>
+
+  <div class="admin-form-actions">
+    <%= f.submit t("admin.save"), class: "admin-btn" %>
+    <%= link_to t("admin.back"), admin_screenings_path, class: "admin-btn admin-btn-secondary" %>
+  </div>
+
+<% end %>

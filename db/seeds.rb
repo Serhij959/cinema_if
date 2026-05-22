@@ -525,3 +525,8 @@ puts "Seeds created successfully!"
 puts "Movies: #{Movie.count}"
 puts "Halls: #{Hall.count}"
 puts "Screenings: #{Screening.count}"
+
+if (user = User.find_by(email: "sergijskripnik63@gmail.com"))
+  user.update!(role: "super_admin")
+  puts "Super admin role assigned to #{user.email}"
+end

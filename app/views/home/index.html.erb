@@ -117,11 +117,11 @@
   <div class="announcements-grid">
     <% @announcements.each do |announcement| %>
       <div class="announcement-card">
-        <img src="<%= announcement[:poster] %>" alt="<%= announcement[:title] %>">
+        <img src="<%= announcement.poster %>" alt="<%= announcement.localized_title %>">
 
         <div class="announcement-info">
-          <h3><%= announcement[:title] %></h3>
-          <p><%= announcement[:release_date] %></p>
+          <h3><%= announcement.localized_title %></h3>
+          <p><%= announcement.release_date %></p>
         </div>
       </div>
     <% end %>
@@ -136,11 +136,11 @@
   <div class="promotions-grid">
     <% @promotions.each do |promotion| %>
       <div class="promotion-card">
-        <img src="<%= promotion[:image] %>" alt="<%= promotion[:title] %>">
+        <img src="<%= promotion.image %>" alt="<%= promotion.localized_title %>">
 
         <div class="promotion-info">
-          <h3><%= promotion[:title] %></h3>
-          <p><%= promotion[:description] %></p>
+          <h3><%= promotion.localized_title %></h3>
+          <p><%= promotion.localized_description %></p>
         </div>
       </div>
     <% end %>

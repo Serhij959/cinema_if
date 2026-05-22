@@ -1,5 +1,4 @@
 class ApplicationController < ActionController::Base
-
   before_action :set_locale
   before_action :store_return_to, if: :devise_controller?
 
@@ -19,10 +18,19 @@ class ApplicationController < ActionController::Base
     session.delete(:user_return_to) || root_path(locale: I18n.locale)
   end
 
+  def admin_user?
+    user_signed_in? && current_user.admin_access?
+  end
+
+  def super_admin_user?
+    user_signed_in? && current_user.super_admin?
+  end
+
+  helper_method :admin_user?, :super_admin_user?
+
   private
 
   def store_return_to
     session[:user_return_to] = params[:return_to] if params[:return_to].present?
   end
-
 end

@@ -1,6 +1,16 @@
 Rails.application.routes.draw do
   devise_for :users
 
+  namespace :admin do
+    root "movies#index"
+    resources :movies
+    resources :screenings
+    resources :announcements
+    resources :promotions
+    resources :users, only: [ :index, :edit, :update ]
+    post "users/add_moderator", to: "users#add_moderator", as: "add_moderator"
+  end
+
   scope "(:locale)", locale: /uk|en/ do
     root "home#index"
 

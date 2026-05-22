@@ -1,0 +1,13 @@
+<nav class="admin-nav">
+  <%= link_to t("admin.movies"), admin_movies_path, class: "admin-nav-link #{'active' if controller_name == 'movies'}" %>
+  <%= link_to t("admin.screenings"), admin_screenings_path, class: "admin-nav-link #{'active' if controller_name == 'screenings'}" %>
+  <%= link_to t("admin.announcements"), admin_announcements_path, class: "admin-nav-link #{'active' if controller_name == 'announcements'}" %>
+  <%= link_to t("admin.promotions"), admin_promotions_path, class: "admin-nav-link #{'active' if controller_name == 'promotions'}" %>
+  <% if super_admin_user? %>
+    <%= link_to t("admin.users"), admin_users_path, class: "admin-nav-link #{'active' if controller_name == 'users'}" %>
+  <% end %>
+  <%= link_to t("admin.add_movie"), new_admin_movie_path, class: "admin-btn admin-btn-small" %>
+  <%= link_to t("admin.add_screening"), new_admin_screening_path, class: "admin-btn admin-btn-small" %>
+  <%= link_to t("admin.add_announcement"), new_admin_announcement_path, class: "admin-btn admin-btn-small" %>
+  <%= link_to t("admin.add_promotion"), new_admin_promotion_path, class: "admin-btn admin-btn-small" %>
+</nav>

@@ -109,8 +109,8 @@ class CinemaSchedule
               { time: "15:10", format: "3D" },
               { time: "18:40", format: "LUX" }
             ]
-          }, 
-          
+          },
+
           {
             title: "Дюна",
             genre: "Фантастика",
@@ -122,7 +122,7 @@ class CinemaSchedule
               { time: "19:20", format: "LUX" }
             ]
           },
-          
+
           {
             title: "Дюна",
             genre: "Фантастика",

@@ -1,0 +1,49 @@
+<div class="admin-page">
+  <div class="admin-card">
+    <div class="admin-header">
+      <h1><%= t("burger.admin") %>: <%= t("admin.screenings") %></h1>
+    </div>
+
+    <%= render "admin/shared/nav" %>
+
+    <% if @screenings.any? %>
+      <div class="admin-table-wrap">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th><%= t("admin.show_date") %></th>
+              <th><%= t("admin.show_time") %></th>
+              <th><%= t("admin.movie") %></th>
+              <th><%= t("admin.hall") %></th>
+              <th><%= t("admin.format") %></th>
+              <th><%= t("admin.price") %></th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @screenings.each do |screening| %>
+              <tr>
+                <td><%= screening.show_date %></td>
+                <td><%= screening.show_time %></td>
+                <td><%= screening.movie.title %></td>
+                <td><%= screening.hall.name %></td>
+                <td><%= screening.format %></td>
+                <td><%= screening.price %></td>
+                <td class="admin-table-actions">
+                  <%= link_to t("admin.edit_screening"), edit_admin_screening_path(screening), class: "admin-btn admin-btn-secondary admin-btn-small" %>
+                  <%= button_to t("admin.delete_screening"),
+                    admin_screening_path(screening),
+                    method: :delete,
+                    class: "admin-btn admin-danger-btn admin-btn-small",
+                    data: { turbo_confirm: "Видалити цей сеанс?" } %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    <% else %>
+      <p class="admin-empty">Сеансів ще немає</p>
+    <% end %>
+  </div>
+</div>

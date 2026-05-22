@@ -1,0 +1,37 @@
+<div class="admin-page">
+  <div class="admin-card">
+    <div class="admin-header">
+      <h1><%= t("burger.admin") %>: <%= t("admin.announcements") %></h1>
+    </div>
+
+    <%= render "admin/shared/nav" %>
+
+    <% if @announcements.any? %>
+      <div class="admin-grid">
+        <% @announcements.each do |announcement| %>
+          <div class="admin-movie-card">
+            <% if announcement.poster.present? %>
+              <img src="<%= announcement.poster %>" alt="<%= announcement.title %>" class="admin-movie-poster">
+            <% end %>
+
+            <div class="admin-movie-info">
+              <h2><%= announcement.title %></h2>
+              <p><strong><%= t("admin.release_date") %>:</strong> <%= announcement.release_date %></p>
+
+              <div class="admin-movie-actions">
+                <%= link_to t("admin.edit_announcement"), edit_admin_announcement_path(announcement), class: "admin-btn admin-btn-secondary" %>
+                <%= button_to t("admin.delete_announcement"),
+                  admin_announcement_path(announcement),
+                  method: :delete,
+                  class: "admin-btn admin-danger-btn",
+                  data: { turbo_confirm: "Видалити цей анонс?" } %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      <p class="admin-empty">Анонсів ще немає</p>
+    <% end %>
+  </div>
+</div>

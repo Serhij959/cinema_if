@@ -1,0 +1,48 @@
+<div class="admin-page">
+  <div class="admin-card">
+    <div class="admin-header">
+      <h1><%= t("burger.admin") %>: <%= t("admin.users") %></h1>
+    </div>
+
+    <%= render "admin/shared/nav" %>
+
+    <div class="admin-moderator-form-wrap">
+      <%= form_with url: admin_add_moderator_path, method: :post, class: "admin-form admin-moderator-form" do %>
+        <div class="admin-form-field">
+          <%= label_tag :email, t("admin.moderator_email"), class: "admin-label" %>
+          <%= email_field_tag :email, params[:email], class: "admin-input", required: true, autocomplete: "email" %>
+        </div>
+        <%= submit_tag t("admin.add_moderator"), class: "admin-btn" %>
+      <% end %>
+    </div>
+
+    <% if @users.any? %>
+      <div class="admin-table-wrap">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Email</th>
+              <th><%= t("admin.role") %></th>
+              <th>Created at</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @users.each do |user| %>
+              <tr>
+                <td><%= user.email %></td>
+                <td><%= t("admin.#{user.role}", default: user.role) %></td>
+                <td><%= user.created_at.strftime("%d.%m.%Y %H:%M") %></td>
+                <td class="admin-table-actions">
+                  <%= link_to t("admin.edit_user"), edit_admin_user_path(user), class: "admin-btn admin-btn-secondary admin-btn-small" %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    <% else %>
+      <p class="admin-empty">Користувачів немає</p>
+    <% end %>
+  </div>
+</div>

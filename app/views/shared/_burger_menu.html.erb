@@ -48,6 +48,16 @@
 
       <% end %>
 
+      <% if admin_user? %>
+
+        <%= link_to admin_root_path, class: "burger-link" do %>
+
+          <%= t("burger.admin") %>
+
+        <% end %>
+
+      <% end %>
+
     </nav>
 
   </div>

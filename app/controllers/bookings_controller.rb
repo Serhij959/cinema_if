@@ -1,5 +1,5 @@
 class BookingsController < ApplicationController
-  before_action :authenticate_user!, only: [:checkout, :my_tickets, :cancel_ticket]
+  before_action :authenticate_user!, only: [ :checkout, :my_tickets, :cancel_ticket ]
 
   def show
     @screening = Screening.find_by(id: params[:screening_id])
@@ -69,7 +69,7 @@ class BookingsController < ApplicationController
 
   def my_tickets
     @orders = current_user.bookings
-      .includes(screening: [:movie, :hall])
+      .includes(screening: [ :movie, :hall ])
       .order(created_at: :desc)
       .group_by(&:ticket_token)
   end
@@ -91,7 +91,7 @@ class BookingsController < ApplicationController
     @ticket_token = params[:token]
 
     @bookings = Booking
-      .includes(screening: [:movie, :hall])
+      .includes(screening: [ :movie, :hall ])
       .where(ticket_token: @ticket_token)
 
     if @bookings.empty?

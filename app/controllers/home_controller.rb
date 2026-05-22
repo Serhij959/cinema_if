@@ -1,8 +1,8 @@
 class HomeController < ApplicationController
   def index
     @days = build_days_from_database
-    @announcements = CinemaAnnouncements.all
-    @promotions = CinemaPromotions.all
+    @announcements = Announcement.order(created_at: :desc).limit(4)
+    @promotions = Promotion.where(active: true).order(created_at: :desc)
   end
 end
 private

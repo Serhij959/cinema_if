@@ -1,54 +1,83 @@
 <div class="booking-page">
   <div class="my-tickets-container">
+
     <% if @orders.empty? %>
-      <p class="no-tickets-msg"><%= t("booking.no_tickets") %></p>
+
+      <p class="no-tickets-msg">
+        <%= t("booking.no_tickets") %>
+      </p>
+
     <% else %>
+
       <% @orders.each do |token, bookings| %>
         <% screening = bookings.first.screening %>
         <% movie = screening.movie %>
         <% hall = screening.hall %>
         <% status = bookings.first.status %>
-        
+
         <div class="booking-session-card ticket-order-card">
+
           <div class="ticket-order-flex">
-            
-            <img src="<%= movie.poster %>" class="ticket-movie-poster">
-            
+
+            <img src="<%= movie.poster %>" class="ticket-movie-poster" alt="<%= movie.title %>">
+
             <div class="ticket-order-info">
+
               <h3 class="ticket-movie-title">
-                <%= movie.respond_to?(:title_en) && I18n.locale == :en && movie.title_en.present? ? movie.title_en : movie.title %>
+                <% if I18n.locale == :en && movie.respond_to?(:title_en) && movie.title_en.present? %>
+                  <%= movie.title_en %>
+                <% else %>
+                  <%= movie.title %>
+                <% end %>
               </h3>
-              
+
               <p class="ticket-session-details">
-                <%= screening.show_date %> • <%= screening.show_time %> • <%= hall.name %> (<%= screening.format %>)
+                <%= screening.show_date %> •
+                <%= screening.show_time %> •
+                <%= hall.name %>
+                (<%= screening.format %>)
               </p>
-              
+
               <div class="ticket-seats-list">
                 <% bookings.each do |b| %>
                   <span class="ticket-seat-badge">
-                    <%= t("booking.row") %> <%= b.row_number %>, <%= t("booking.seat") %> <%= b.seat_number %>
+                    <%= t("booking.row") %> <%= b.row_number %>,
+                    <%= t("booking.seat") %> <%= b.seat_number %>
                   </span>
                 <% end %>
               </div>
 
               <p class="ticket-total-price">
-                <%= t("booking.total") %>: <%= bookings.sum(&:price) %> <%= t("booking.currency") %>
+                <%= t("booking.total") %>:
+                <%= bookings.sum(&:price) %>
+                <%= t("booking.currency") %>
               </p>
 
               <p class="ticket-status">
                 <%= t("booking.status") %>:
+
                 <% if status == "paid" %>
-                  <%= t("booking.paid") %>
+                  <span class="ticket-status-paid">
+                    <%= t("booking.paid") %>
+                  </span>
                 <% elsif status == "cancelled" %>
-                  <%= t("booking.cancelled") %>
+                  <span class="ticket-status-cancelled">
+                    <%= t("booking.cancelled") %>
+                  </span>
                 <% else %>
-                  <%= status %>
+                  <span>
+                    <%= status %>
+                  </span>
                 <% end %>
               </p>
+
             </div>
 
             <div class="ticket-action-col">
-              <%= link_to t("booking.view_qr"), ticket_path(token: token, locale: I18n.locale), class: "buy-ticket-btn ticket-view-btn" %>
+
+              <%= link_to t("booking.view_qr"),
+                ticket_path(token: token, locale: I18n.locale),
+                class: "buy-ticket-btn ticket-view-btn" %>
 
               <% if status == "paid" %>
                 <%= button_to t("booking.cancel_ticket"),
@@ -56,11 +85,16 @@
                   method: :delete,
                   class: "buy-ticket-btn ticket-cancel-btn" %>
               <% end %>
+
             </div>
-            
+
           </div>
+
         </div>
+
       <% end %>
+
     <% end %>
+
   </div>
 </div>

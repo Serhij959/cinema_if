@@ -1,0 +1,39 @@
+<div class="admin-page">
+  <div class="admin-card">
+    <div class="admin-header">
+      <h1><%= t("burger.admin") %>: <%= t("admin.movies") %></h1>
+    </div>
+
+    <%= render "admin/shared/nav" %>
+
+    <% if @movies.any? %>
+      <div class="admin-grid">
+        <% @movies.each do |movie| %>
+          <div class="admin-movie-card">
+            <% if movie.poster.present? %>
+              <img src="<%= movie.poster %>" alt="<%= movie.title %>" class="admin-movie-poster">
+            <% end %>
+
+            <div class="admin-movie-info">
+              <h2><%= movie.title %></h2>
+              <p><strong><%= t("admin.genre_uk") %>:</strong> <%= movie.genre %></p>
+              <p><strong><%= t("admin.duration_uk") %>:</strong> <%= movie.duration %></p>
+              <p><strong><%= t("admin.age") %>:</strong> <%= movie.age %></p>
+
+              <div class="admin-movie-actions">
+                <%= link_to t("admin.edit_movie"), edit_admin_movie_path(movie), class: "admin-btn admin-btn-secondary" %>
+                <%= button_to t("admin.delete_movie"),
+                  admin_movie_path(movie),
+                  method: :delete,
+                  class: "admin-btn admin-danger-btn",
+                  data: { turbo_confirm: "Видалити цей фільм?" } %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      <p class="admin-empty">Фільмів ще немає</p>
+    <% end %>
+  </div>
+</div>
