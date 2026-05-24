@@ -7,8 +7,14 @@ Rails.application.routes.draw do
     resources :screenings
     resources :announcements
     resources :promotions
-    resources :users, only: [ :index, :edit, :update ]
-    post "users/add_moderator", to: "users#add_moderator", as: "add_moderator"
+    resources :users, only: [ :index ] do
+      member do
+        patch :remove_moderator
+      end
+      collection do
+        post :add_moderator
+      end
+    end
   end
 
   scope "(:locale)", locale: /uk|en/ do
